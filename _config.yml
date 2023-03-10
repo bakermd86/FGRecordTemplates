@@ -1,0 +1,16 @@
+remote_theme: "mmistakes/minimal-mistakes@4.23.0"
+minimal_mistakes_skin: "contrast" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum" "sunrise"
+title: "Fen's Star Trek Adventures Ruleset Documentation"
+search: true
+search_full_content: true
+plugins:
+  - jekyll-include-cache
+defaults:
+  - values:
+      show_date: true
+      layout: single
+      classes: wide
+      sidebar:
+        - title: "Ruleset Documentation"
+          text: "Documentation for for my homebrew Star Trek Adventures Fantasy Grounds Unity ruleset"
+        - nav: "docs"
