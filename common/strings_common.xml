@@ -1,0 +1,6 @@
+<root>
+    <string name="library_recordtype_label_record_inspection">Inspected Records</string>
+    <string name="library_recordtype_label_record_template">Record Templates</string>
+    <string name="tooltip_expand_children">Expand Children</string>
+    <string name="tooltip_collapse_children">Collapse Children</string>
+</root>

@@ -1,0 +1,415 @@
+<root>
+    <windowclass name="insert_exclusive_group_pane_inline">
+		<margins control="0,0,0,2" />
+        <sheetdata>
+            <row_anchor/>
+
+            <inline_label>
+                <static>Group Items: </static>
+            </inline_label>
+            <inline_string_field name="insertExclusiveGroup" >
+                <anchored merge="merge">
+                    <right parent="" offset="-15"/>
+                </anchored>
+            </inline_string_field>
+        </sheetdata>
+        <script>
+            function setReadOnly(bReadOnly)
+                insertExclusiveGroup.setReadOnly(bReadOnly)
+            end
+        </script>
+    </windowclass>
+
+    <windowclass name="insert_record_type_pane_inline">
+		<margins control="0,0,0,2" />
+        <sheetdata>
+            <row_anchor/>
+
+            <inline_label>
+                <static>Record Class: </static>
+            </inline_label>
+            <record_type_select_combo_inline name="insertRecordClass" />
+        </sheetdata>
+        <script>
+            function setReadOnly(bReadOnly)
+                insertRecordClass.setEnabled(not bReadOnly)
+            end
+        </script>
+    </windowclass>
+
+    <windowclass name="record_variable_dummy" />
+
+    <windowclass name="record_variable_def_row" >
+        <margins control="0,0,0,2"/>
+        <script>
+            function setReadOnly(bReadOnly)
+                link.setReadOnly(bReadOnly)
+                sortVal.setReadOnly(bReadOnly)
+                variableName.setReadOnly(bReadOnly)
+                variableType.setEnabled(not bReadOnly)
+                if variableValSubwindow.subwindow then
+                    variableValSubwindow.subwindow.setReadOnly(bReadOnly)
+                end
+            end
+        </script>
+        <sheetdata>
+            <row_anchor/>
+
+            <linkcontrol name="link">
+                <anchored to="rowAnchor" height="15" width="15">
+                    <top />
+                    <left anchor="right" relation="current" />
+                </anchored>
+                <class>record_variable_dummy</class>
+            </linkcontrol>
+
+            <inline_label>
+                <static>Sort: </static>
+                <anchored >
+                    <left offset="18" />
+                </anchored>
+            </inline_label>
+            <inline_number_field name="sortVal" />
+
+            <inline_label>
+                <static>Variable Name:</static>
+            </inline_label>
+            <inline_string_field name="variableName"/>
+
+            <inline_label>
+                <static>Variable Type:</static>
+            </inline_label>
+            <variable_type_combo_inline name="variableType"/>
+
+            <subwindow name="variableValSubwindow">
+                <script>
+                    function onInit()
+                        window.variableType.onValueChanged()
+                    end
+                </script>
+                <invisible />
+                <anchored  to="rowAnchor" >
+                    <top />
+                    <left anchor="right" relation="relative" />
+                    <right parent="" />
+                </anchored>
+                <noscroll />
+            </subwindow>
+
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="record_def_variables_def">
+		<margins control="0,0,0,2" />
+        <sheetdata>
+            <windowlist name="variable_rows">
+                <sortby>
+                    <field>sortVal</field>
+                </sortby>
+                <anchored>
+                    <top />
+                    <left />
+                    <right />
+                    <sizelimits>
+                        <minimum>
+                            <height>60</height>
+                        </minimum>
+                    </sizelimits>
+                </anchored>
+                <noscroll />
+                <allowcreate />
+                <allowdelete />
+                <class>record_variable_def_row</class>
+				<datasource>.variable_rows</datasource>
+                <acceptdrop>
+                    <class>record_variable_def_row</class>
+                    <class>record_variable_dummy</class>
+					<field>*</field>
+                </acceptdrop>
+            </windowlist>
+        </sheetdata>
+        <script>
+            function onInit()
+                update()
+            end
+            function update()
+                local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+                variable_rows.setReadOnly(bReadOnly)
+                for _, w in ipairs(variable_rows.getWindows()) do
+                    w.setReadOnly(bReadOnly)
+                end
+            end
+        </script>
+    </windowclass>
+
+    <windowclass name="record_node_dummy" />
+
+    <windowclass name="node_collapse_inter_win">
+        <sheetdata>
+            <collapse_button name="showRows" />
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="node_string_val_win">
+        <sheetdata>
+            <row_anchor/>
+
+            <inline_label>
+                <static>Value:</static>
+            </inline_label>
+            <inline_string_field name="nodeValue" >
+                <anchored>
+                    <right parent="" offset="-15"/>
+                </anchored>
+            </inline_string_field>
+        </sheetdata>
+        <script>
+            function setReadOnly(locked)
+                nodeValue.setReadOnly(locked)
+            end
+        </script>
+    </windowclass>
+
+    <windowclass name="node_formatted_text_win">
+        <sheetdata>
+            <row_anchor/>
+
+            <inline_label>
+                <static>Value:</static>
+            </inline_label>
+            <inline_formatted_text_field name="nodeFmtValue" >
+                <anchored>
+                    <right parent="" offset="-15"/>
+                </anchored>
+            </inline_formatted_text_field>
+        </sheetdata>
+            <script>
+                function setReadOnly(locked)
+                    nodeFmtValue.setReadOnly(locked)
+                end
+            </script>
+    </windowclass>
+
+    <windowclass name="node_add_child_val_win">
+        <sheetdata>
+            <buttoncontrol name="addChild">
+                <frame name="fieldlight" offset="7,5,7,5"/>
+                <anchored position="over"/>
+				<state>
+					<text> Add Child Node </text>
+				</state>
+				<pressed offset="1,1" />
+                <script>
+                    function onButtonPress()
+                        w = window.parentcontrol.window.sub_record_rows.createWindow()
+                    end
+                </script>
+            </buttoncontrol>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="record_node_def_row">
+        <margins control="0,0,0,2"/>
+        <script>
+            function setReadOnly(locked)
+                link.setReadOnly(locked)
+                sortVal.setReadOnly(locked)
+                name.setReadOnly(locked)
+                nodeType.setEnabled(not locked)
+                nodeValWindow.subwindow.setReadOnly(locked)
+                sub_record_rows.setLock(locked)
+            end
+        </script>
+        <sheetdata>
+            <row_anchor />
+
+            <linkcontrol name="link">
+                <anchored to="rowAnchor" height="15" width="15">
+                    <top />
+                    <left anchor="right" relation="current" />
+                </anchored>
+                <class>record_node_dummy</class>
+            </linkcontrol>
+
+            <inline_label>
+                <static>Sort: </static>
+                <anchored >
+                    <left offset="18" />
+                </anchored>
+            </inline_label>
+            <inline_number_field name="sortVal" />
+
+            <inline_label>
+                <static>Node Path:</static>
+            </inline_label>
+            <inline_string_field name="name" />
+
+            <inline_label>
+                <static>Type:</static>
+            </inline_label>
+            <node_type_combo_inline name="nodeType" />
+
+            <subwindow name="nodeCollapseWindow">
+                <class>node_collapse_inter_win</class>
+                <anchored to="rowAnchor" height="15" width="18">
+                    <top />
+                    <left anchor="right" relation="relative"/>
+                </anchored>
+                <activate />
+                <fastinit />
+            </subwindow>
+
+            <subwindow name="nodeValWindow" >
+                <noscroll />
+                <class>node_string_val_win</class>
+                <anchored to="rowAnchor">
+                    <top />
+                    <left anchor="right" relation="relative"/>
+                    <right parent=""/>
+                </anchored>
+                <activate />
+                <fastinit />
+                <script>
+                    function onInit()
+                        window.nodeType.onValueChanged()
+                    end
+                </script>
+            </subwindow>
+
+            <record_row_list name="sub_record_rows">
+                <anchored merge="replace">
+                    <top offset="25"/>
+                    <left offset="25"/>
+                    <right parent="" />
+                    <sizelimits>
+                        <minimum>
+                            <height>25</height>
+                        </minimum>
+                    </sizelimits>
+                </anchored>
+				<datasource>.sub_record_rows</datasource>
+            </record_row_list>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="record_def_node_defs">
+		<margins control="0,0,0,2" />
+        <script>
+            function onInit()
+                update()
+            end
+            function update()
+                local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+                record_rows.setLock(bReadOnly)
+            end
+        </script>
+        <sheetdata>
+            <record_row_list name="record_rows">
+				<datasource>.record_rows</datasource>
+            </record_row_list>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="record_def_header">
+		<margins control="0,0,0,7" />
+		<script file="common/scripts/record_header.lua" />
+        <sheetdata>
+			<link_record_header name="link" />
+
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+            <genericcontrol name="token">
+                <anchored position="insidetopleft" width="0" height="0"/>
+                <script>
+                    function setReadOnly(bReadOnly)
+                        window.record_type.setReadOnly(bReadOnly)
+                        window.record_name_field.setReadOnly(bReadOnly)
+                    end
+                </script>
+            </genericcontrol>
+
+			<stringfield name="name">
+				<anchored to="rightanchor" height="24">
+					<top offset="-4" />
+					<left parent="" offset="45" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<font>reference-h</font>
+				<nodrag />
+				<delaykeyupdate />
+			</stringfield>
+            <row_anchor>
+                <anchored merge="merge">
+                    <top offset="30"/>
+                    <left offset="15"/>
+                </anchored>
+            </row_anchor>
+            <inline_label>
+                <static>Record Type: </static>
+			    <font>sheetlabel</font>
+            </inline_label>
+            <inline_string_field name="record_type">
+                <anchored merge="merge">
+                    <right parent="" anchor="center" />
+                </anchored>
+            </inline_string_field>
+            <inline_label>
+                <static>Record Name Field: </static>
+            </inline_label>
+            <inline_string_field name="record_name_field">
+                <anchored merge="merge">
+                    <right parent="" offset="-15"/>
+                </anchored>
+            </inline_string_field>
+
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="record_template">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="800" height="600" />
+		</placement>
+		<sizelimits>
+			<minimum width="800" height="250" />
+			<dynamic />
+		</sizelimits>
+        <tooltip field="name" />
+        <script file="common/scripts/record_template.lua" />
+        <sheetdata>
+			<sub_record_header name="header">
+				<class>record_def_header</class>
+			</sub_record_header>
+			<frame_record_content_tabbed name="contentframe" />
+
+			<subwindow_record name="nodes">
+				<class>record_def_node_defs</class>
+			</subwindow_record>
+            <subwindow_record name="variables">
+                <class>record_def_variables_def</class>
+            </subwindow_record>
+
+			<scrollbar_record>
+				<target>nodes</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>variables</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet name="tabs">
+				<tab>
+					<icon>tab_nodes</icon>
+					<subwindow>nodes</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_variables</icon>
+					<subwindow>variables</subwindow>
+				</tab>
+			</tabs_recordsheet>
+
+			<resize_recordsheet />
+			<close_recordsheet />
+        </sheetdata>
+    </windowclass>
+</root>
