@@ -23,9 +23,13 @@ Like any other Fantasy Grounds extension, just place the ext file in the extensi
 
 ### Example Modules
 
-Included in the "examples" directory are 2 modules containing example Record Templates. One for 5e and one for Savage Worlds 
+Included in the "examples" directory of the main repo are 2 modules containing example Record Templates. One for 5e and one for Savage Worlds 
 Deluxe. In both cases, they will work better if you have the reference modules loaded. So for the 5e example, load the "5e SRD Data" module 
 before trying to use it, and for the SWD example, load the SWD player manual. 
+
+Those can be found here:
+
+[Example Modules](https://github.com/bakermd86/FGRecordTemplates/tree/master/examples)
 
 ## Contents
 
