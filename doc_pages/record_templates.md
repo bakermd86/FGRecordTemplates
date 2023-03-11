@@ -52,7 +52,7 @@ the record node.
 This is useful for lists of record types with the same structure as their underlying source record type. 
 Such as a weapons list, a list of feats/edges/spells, etc.
 
-###Custom Record Variables
+### Custom Record Variables
 
 In addition to the standard Story Template syntax, I also added 2 custom variable behaviors that I found were important to use 
 the tool in the way I wanted for my own nefarious purposes. These variables are defined via the Variables tab:
