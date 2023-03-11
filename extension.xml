@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root logo="logo.png">
-	<announcement text="Story Template Custom Record Templates v1.0" font="emotefont" />
+	<announcement text="Custom Record Templates v1.0" font="emotefont" />
 
 	<properties>
-		<name>Story Template Custom Record Templates</name>
+		<name>Custom Record Templates</name>
 		<version>1.0</version>
 
 		<author>Fen</author>
