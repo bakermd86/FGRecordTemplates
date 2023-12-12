@@ -51,7 +51,7 @@ end
 
 function formatResolvedRecordLink(generatedRecordNode, recordNodeType)
     return '<link class="' .. recordNodeType .. '" recordname="' .. generatedRecordNode.getNodeName() .. '">' ..
-                DB.getValue(generatedRecordNode, "name") ..  "</link>"
+                DB.getValue(generatedRecordNode, "name", "") ..  "</link>"
 end
 
 function writeResolvedRecord(resolvedNodeVals, recordNodeType)

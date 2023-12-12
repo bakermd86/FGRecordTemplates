@@ -7,7 +7,7 @@ new_aRecords = {
 }
 
 function onInit()
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         for kRecordType,vRecordType in pairs(new_aRecords) do
             LibraryData.setRecordTypeInfo(kRecordType, vRecordType);
         end
